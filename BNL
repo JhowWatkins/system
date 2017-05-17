@@ -1,0 +1,145 @@
+#include <a_samp>
+#include <mSelection>
+#include <izcmd>
+
+/*Dialogo*/
+#define DIALOG_BONE    (0)
+
+
+/*Variables*/
+new mascaralist = mS_INVALID_LISTID;
+new bonelist = mS_INVALID_LISTID;
+new relogiolist = mS_INVALID_LISTID;
+new bandanalist = mS_INVALID_LISTID;
+new oculoslist = mS_INVALID_LISTID;
+
+
+
+public OnFilterScriptInit()
+{
+	mascaralist = LoadModelSelectionMenu("mascaras.txt");
+	bonelist = LoadModelSelectionMenu("bones.txt");
+	relogiolist = LoadModelSelectionMenu("relogios.txt");
+	bandanalist = LoadModelSelectionMenu("bandana.txt");
+	oculoslist = LoadModelSelectionMenu("oculos.txt");
+	return 1;
+}
+public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
+{
+	switch(dialogid)
+	{
+		
+		case DIALOG_BONE:
+		{
+			
+			if(response)
+			{
+				
+				switch(listitem)
+				{
+					
+					case 0:
+					{
+						
+						ShowModelSelectionMenu(playerid, bonelist, "Select Bone");
+					}
+					case 1:
+					{
+						
+						ShowModelSelectionMenu(playerid, mascaralist, "Select Mascara");
+					}
+					case 2:
+					{
+						ShowModelSelectionMenu(playerid, oculoslist, "Select Oculos");
+						
+					}
+					case 3:
+					{
+						
+						ShowModelSelectionMenu(playerid, relogiolist, "Select Relogio");
+					}
+					case 4:
+					{
+						
+						ShowModelSelectionMenu(playerid, bandanalist, "Select Bandana");
+					}
+					case 5:
+					{
+						
+						EditAttachedObject(playerid, 1);
+					}
+
+				}
+			}
+
+		}
+
+	}
+
+	return true;
+}
+
+
+CMD:comprar(playerid)
+{
+	new string[500];
+	format(string,sizeof(string),"Bone\nMascara\nOculos\nRelogio\nBandana\nAJUSTEITENS");
+	ShowPlayerDialog(playerid, DIALOG_BONE, DIALOG_STYLE_LIST, "Binco Acessorios",string,"Selecionar", "Cancelar");
+	return 1;
+}
+
+
+public OnPlayerModelSelection(playerid, response, listid, modelid)
+{
+	if(listid == mascaralist)
+	{
+	    if(response)
+	    {
+		    SendClientMessage(playerid, 0xFF0000FF, "Você Pegou a Mascara Com Sucesso");
+			SetPlayerAttachedObject (playerid,0,modelid,2);
+	    }
+	    else SendClientMessage(playerid, 0xFF0000FF, "Você Cancelou a Tabela das Mascaras!");
+    	return 1;
+	}
+	if(listid == bonelist)
+	{
+	    if(response)
+	    {
+		    SendClientMessage(playerid, 0xFF0000FF, "Você Pegou o Boné Com Sucesso");
+	    	SetPlayerAttachedObject (playerid,1,modelid,2);
+	    }
+	    else SendClientMessage(playerid, 0xFF0000FF, "Você Cancelou a Tabela dos bonés!");
+    	return 1;
+	}
+	if(listid == oculoslist)
+	{
+	    if(response)
+	    {
+		    SendClientMessage(playerid, 0xFF0000FF, "Você Pegou o Oculos Com Sucesso");
+	    	SetPlayerAttachedObject (playerid,2,modelid,2);
+	    }
+	    else SendClientMessage(playerid, 0xFF0000FF, "Você Cancelou a Tabela dos Oculos!");
+    	return 1;
+	}
+	if(listid == relogiolist)
+	{
+	    if(response)
+	    {
+		    SendClientMessage(playerid, 0xFF0000FF, "Você Pegou Um Relogio Com Sucesso");
+	    	SetPlayerAttachedObject (playerid,3,modelid,5);
+	    }
+	    else SendClientMessage(playerid, 0xFF0000FF, "Você Cancelou a Tabela dos Relogios!");
+    	return 1;
+	}
+	if(listid == bandanalist)
+	{
+	    if(response)
+	    {
+		    SendClientMessage(playerid, 0xFF0000FF, "Você Pegou uma Bandana Com Sucesso");
+	    	SetPlayerAttachedObject (playerid,4,modelid,2);
+	    }
+	    else SendClientMessage(playerid, 0xFF0000FF, "Você Cancelou a Tabela das Bandanas!");
+    	return 1;
+	}
+	return 1;
+}
